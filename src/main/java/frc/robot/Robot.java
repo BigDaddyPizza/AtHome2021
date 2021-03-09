@@ -174,6 +174,9 @@ public class Robot extends TimedRobot {
         public int autoCase;
         public int autoCounter = 0;
 
+      //check yaw
+        public Boolean checkedYaw = false;
+
 
   //endregion
  
@@ -497,22 +500,47 @@ public class Robot extends TimedRobot {
     //     break;
     //   }
     }
+
+    // switch (autoCounter) {
+    //   case 0:
+    //     smartTurn("left", 60, 500, 500);
+    //     break;
+    //   case 1:
+    //     smartTurn("right", 60, 500, 500);
+    //     break;
+    //   case 2:
+    //     smartTurn("right", 130, 1000, 250);
+    //     break;
+    //   case 3:
+    //     smartTurn("left", 160, 500, 750);
+    //     break;
+    //   case 4:
+    //     smartTurn("left", 180, 500, 750);
+    //     break;
+    //   case 5:
+    //     smartTurn("right", 20, 500, 500);
+    //     break;
+    //   case 6:
+    //     smartTurn("right", 130, 1000, 250);
+    //     break;
+    //   case 7:
+    //     smartTurn("left", 60, 500, 500);
+    //     break;
+    //   }
     
-    climb();
-    SmartDashboard.putNumber("climb encoder counts", e_Climb.getPosition());
-    SmartDashboard.putNumber("right1", e_Right1.getPosition());
-    SmartDashboard.putNumber("right2", e_Right2.getPosition());
-    SmartDashboard.putNumber("left1", e_Left1.getPosition());
-    SmartDashboard.putNumber("left2", e_Left2.getPosition());
-    SmartDashboard.putNumber("navx", navX.getYaw() % 360);
-    SmartDashboard.putBoolean("climbextender", extendClimber);
-    SmartDashboard.putBoolean("switch climb mode ", switchClimbMode);
-    SmartDashboard.putBoolean("clmib mode", climbMode);
-    SmartDashboard.putBoolean("extend clmib mode", extendClimbMode);
+    // climb();
+    // SmartDashboard.putNumber("climb encoder counts", e_Climb.getPosition());
+    // SmartDashboard.putNumber("right1", e_Right1.getPosition());
+    // SmartDashboard.putNumber("right2", e_Right2.getPosition());
+    // SmartDashboard.putNumber("left1", e_Left1.getPosition());
+    // SmartDashboard.putNumber("left2", e_Left2.getPosition());
+    // SmartDashboard.putNumber("navx", navX.getYaw() % 360);
+    // SmartDashboard.putBoolean("climbextender", extendClimber);
+    // SmartDashboard.putBoolean("switch climb mode ", switchClimbMode);
+    // SmartDashboard.putBoolean("clmib mode", climbMode);
+    // SmartDashboard.putBoolean("extend clmib mode", extendClimbMode);
 
 
-
-  }
 
   //region_Methods
     public void gettingVision(){
@@ -898,6 +926,7 @@ public class Robot extends TimedRobot {
         pc_Right1.setReference(-1000, ControlType.kVelocity);
         pc_Right2.setReference(-1000, ControlType.kVelocity);
       }
+    }
 
 
       public void extraSmartTurn(String direction, double targetAngle, double targetRadius, double fps) {
@@ -929,9 +958,9 @@ public class Robot extends TimedRobot {
         */
   
 
-        double targetSpeed = fps * (30 * Math.PI)
+        double targetSpeed = fps * (30 * Math.PI);
         //double insideWheelSpeed = - ((((25/12) * fps) - (targetRadius * fps)) / (targetRadius + (25/12)))
-        double insideWheelSpeed = (fps - ((25/12) * targetRadius)) * (30 * Math.PI)
+        double insideWheelSpeed = (fps - ((25/12) * targetRadius)) * (30 * Math.PI);
 
         
         if (Math.abs(currentYaw) < targetAngle) {
@@ -941,8 +970,6 @@ public class Robot extends TimedRobot {
             case "R":
             case "r":
               System.out.println("right");
-              normalSpeed = robotSpeed;
-              turnWheelSpeed = robotSpeed + turnSpeed;
               // faster (outside)
               pc_Left1.setReference(targetSpeed, ControlType.kVelocity);
               pc_Left2.setReference(targetSpeed, ControlType.kVelocity);
@@ -955,8 +982,6 @@ public class Robot extends TimedRobot {
             case "L":
             case "l":
               System.out.println("left");
-              normalSpeed = robotSpeed;
-              turnWheelSpeed = robotSpeed + turnSpeed;
               //faster (outside)
               pc_Right1.setReference(-targetSpeed, ControlType.kVelocity);
               pc_Right2.setReference(-targetSpeed, ControlType.kVelocity);
@@ -980,7 +1005,6 @@ public class Robot extends TimedRobot {
           autoCounter++;
         };
         
-      }
       }
 
 
@@ -1061,7 +1085,6 @@ public class Robot extends TimedRobot {
         autoCounter++;
       };
       
-    }
     }
     
     //endregion
